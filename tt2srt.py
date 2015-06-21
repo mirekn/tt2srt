@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 """
 Youtube timed text subtitle file converter
@@ -70,8 +71,14 @@ def main():
 
 		for child in para.childNodes:
 			if child.nodeName == '#text':
-				out.write(child.data.replace('&#39;', '\'').replace('&quot;', '\"').encode("utf8"))
-		out.write(("\r\n\r\n").encode("utf8"))
+				text = child.data.strip()
+				text = text.replace(u'–', '-')
+				text = text.replace('  ', ' ')
+				text = text.replace(u'…', '...')
+				text = text.replace(u'„', '\"').replace(u'“', '\"')
+				text = text.replace('&#39;', '\'').replace('&quot;', '\"')
+				out.write(text.encode("utf8"))
+		out.write("\r\n\r\n".encode("utf8"))
 		i += 1
 
 	out.close()
